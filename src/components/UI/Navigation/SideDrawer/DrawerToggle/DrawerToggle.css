@@ -1,0 +1,19 @@
+.DrawerToggle {
+    display: inline-block;
+    cursor: pointer;
+    padding:15px;
+}
+
+.Bar1, .Bar2, .Bar3 {
+    width: 35px;
+    height: 5px;
+    background-color: #fff;
+    margin: 6px 0;
+    transition: 0.4s;
+}
+
+@media (min-width: 500px) {
+    .DrawerToggle {
+        display: none;
+    }
+}
