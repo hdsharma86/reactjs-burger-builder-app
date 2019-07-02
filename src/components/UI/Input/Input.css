@@ -1,0 +1,21 @@
+.Input {
+    width: 96%;
+    /*border: 1px solid #333;*/
+    padding: 5px 10px;
+    margin: 5px 0px;
+}
+
+.Select {
+    width: 100%;
+    padding: 7px 15px;
+    /*border: 1px solid #333;*/
+    background-color: #fff;
+}
+
+.Invalid {
+    border: 1px solid red;
+}
+
+.Input:focus, .Select:focus {
+    background-color: #ccc;
+}

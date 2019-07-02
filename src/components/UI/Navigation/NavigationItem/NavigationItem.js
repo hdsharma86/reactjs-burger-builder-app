@@ -4,8 +4,8 @@ import classes from './NavigationItem.css';
 
 const navigationItem = () => (
     <ul className={classes.NavigationItem}>
-        <NavLink active link="/">Burger Builder</NavLink>
-        <NavLink link="/sdfsdf">Checkout</NavLink>
+        <NavLink link="/">Burger Builder</NavLink>
+        <NavLink link="/orders">Orders</NavLink>
     </ul>
 );
 
