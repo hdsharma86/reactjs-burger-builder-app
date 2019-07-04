@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+
 import axios from '../../../axios-connector';
 import classes from './OrderDetail.css';
 import Button from '../../UI/Button/Button';
@@ -96,16 +98,14 @@ class OrderDetail extends Component {
             },
         },
         isFormValid: false,
-        ingredients: null,
-        totalPrice: 0,
         loading: false
     };
 
     componentWillMount() {
-        this.setState({
+       /* this.setState({
             ingredients: this.props.ingredient,
             totalPrice: this.props.price
-        });
+        });*/
     }
 
     orderFormSubmitHandler = (event) => {
@@ -117,8 +117,8 @@ class OrderDetail extends Component {
             formData[elementIdentifier] = this.state.orderForm[elementIdentifier].value;
         }
         const orderDetail = {
-            ingredients: this.props.ingredient,
-            price: this.state.totalPrice,
+            ingredients: this.props.ingredients,
+            price: this.props.price,
             orderDetail: formData
         };
 
@@ -206,4 +206,11 @@ class OrderDetail extends Component {
 
 }
 
-export default OrderDetail;
+const mapStateToProps = (state) => {
+    return {
+        ingredients: state.ingredients,
+        price: state.price
+    }
+}
+
+export default connect(mapStateToProps)(OrderDetail);
