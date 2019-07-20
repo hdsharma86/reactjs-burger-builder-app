@@ -6,7 +6,9 @@ import classes from './OrderDetail.css';
 import Button from '../../UI/Button/Button';
 import Spinner from '../../UI/Spinner/Spinner';
 import Input from '../../UI/Input/Input';
-
+import WithErrorHandler from '../../../hoc/WithErrorHandler/WithErrorHandler';
+import * as actions from '../../../store/actions/order'
+;
 class OrderDetail extends Component {
     
     state = {
@@ -97,16 +99,8 @@ class OrderDetail extends Component {
                 isValid: true
             },
         },
-        isFormValid: false,
-        loading: false
+        isFormValid: false
     };
-
-    componentWillMount() {
-       /* this.setState({
-            ingredients: this.props.ingredient,
-            totalPrice: this.props.price
-        });*/
-    }
 
     orderFormSubmitHandler = (event) => {
         event.preventDefault();
@@ -119,19 +113,11 @@ class OrderDetail extends Component {
         const orderDetail = {
             ingredients: this.props.ingredients,
             price: this.props.price,
-            orderDetail: formData
+            orderDetail: formData,
+            userId: this.props.userId
         };
 
-        axios.post('orders.json', orderDetail)
-        .then((response) => {
-            this.setState({loading: false, purchasing: false});
-            console.log(response);
-            this.props.history.push('/');
-        })
-        .catch((e) => {
-            this.setState({loading: false, purchasing: false});
-            console.log(e)
-        });
+        this.props.onOrderProcess(orderDetail, this.props.token);
     }
 
     checkValiditiy = (value, rules) => {
@@ -202,15 +188,25 @@ class OrderDetail extends Component {
                 <small><strong>Note: Payment method will be COD(Cash On Delivery)</strong></small>
             </div>
         );
+        
     }
 
 }
 
 const mapStateToProps = (state) => {
     return {
-        ingredients: state.ingredients,
-        price: state.price
+        ingredients: state.burgerBuilder.ingredients,
+        price: state.burgerBuilder.price,
+        loading: state.order.loading,
+        token: state.auth.token,
+        userId: state.auth.userId
     }
 }
 
-export default connect(mapStateToProps)(OrderDetail);
+const mapDispatchToProps = dispatch => {
+    return {
+        onOrderProcess : (orderData, token) => dispatch(actions.processOrder(orderData, token))
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(WithErrorHandler(OrderDetail, axios));
